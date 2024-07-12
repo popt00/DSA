@@ -5,7 +5,7 @@
 * maximize sum(f(i)): have k,k-1.....m+1   :(till m+1 cause m<k)
 * between those can be ordered in any way as both will cancel out in f(i)-g(i)
 * */
-package org.donga;
+// package org.donga;
 import java.util.Scanner;
 public class B {
     public static void main(String[] args) {
