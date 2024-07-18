@@ -1,0 +1,70 @@
+/**
+ * https://leetcode.com/problems/number-of-good-leaf-nodes-pairs/description/?envType=daily-question&envId=2024-07-18
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    HashMap<TreeNode, Integer> map;
+    HashSet<TreeNode> leaf;
+    int ans;
+    int dis;
+    public int countPairs(TreeNode root, int distance) {
+        map=new HashMap<>();
+        leaf=new HashSet<>();
+        dis=distance;
+        helper(root,0);
+        return ans;
+    }
+    class MyList{
+        TreeNode node;
+        MyList next;
+        MyList(){}
+        MyList(TreeNode x){node=x;}
+    }
+    public MyList helper(TreeNode root, int depth){
+        map.put(root,depth);
+        MyList right=null;MyList left=null;
+        if(root.left!=null)left=helper(root.left,depth+1);
+        if(root.right!=null)right=helper(root.right,depth+1);
+        if(root.left==null && root.right==null){
+            return new MyList(root);
+        }
+        MyList temp=null;
+        if(right!=null && left!=null){
+            temp=left;
+            while(temp.next!=null){
+                int lenL =map.get(temp.node);
+                MyList temp2=right;
+                while(temp2!=null){
+                    // System.out.println(temp.node.val+":"+temp2.node.val);
+                    if(lenL+map.get(temp2.node)-2*depth<=dis)ans++;
+                    temp2=temp2.next;
+                }
+                temp=temp.next;
+            }
+            int lenL =map.get(temp.node);
+            MyList temp2=right;
+            while(temp2!=null){
+                // System.out.println(temp.node.val+":"+temp2.node.val);
+                if(lenL+map.get(temp2.node)-2*depth<=dis)ans++;
+                temp2=temp2.next;
+            }
+            temp.next=right;
+            return left;
+        }
+        else if(right!=null)return right;
+        else if(left!=null)return left;
+        return null;
+    }
+}
