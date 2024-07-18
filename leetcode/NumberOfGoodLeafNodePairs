@@ -15,56 +15,29 @@
  * }
  */
 class Solution {
-    HashMap<TreeNode, Integer> map;
-    HashSet<TreeNode> leaf;
     int ans;
     int dis;
     public int countPairs(TreeNode root, int distance) {
-        map=new HashMap<>();
-        leaf=new HashSet<>();
+        ans=0;
         dis=distance;
-        helper(root,0);
+        helper(root);
         return ans;
     }
-    class MyList{
-        TreeNode node;
-        MyList next;
-        MyList(){}
-        MyList(TreeNode x){node=x;}
-    }
-    public MyList helper(TreeNode root, int depth){
-        map.put(root,depth);
-        MyList right=null;MyList left=null;
-        if(root.left!=null)left=helper(root.left,depth+1);
-        if(root.right!=null)right=helper(root.right,depth+1);
+    public int[] helper(TreeNode root){
+        int[] current=new int[dis];
+        if(root==null)return current;
+        int[] left=helper(root.left);
+        int[] right=helper(root.right);
+
         if(root.left==null && root.right==null){
-            return new MyList(root);
+            current[0]=1;
         }
-        MyList temp=null;
-        if(right!=null && left!=null){
-            temp=left;
-            while(temp.next!=null){
-                int lenL =map.get(temp.node);
-                MyList temp2=right;
-                while(temp2!=null){
-                    // System.out.println(temp.node.val+":"+temp2.node.val);
-                    if(lenL+map.get(temp2.node)-2*depth<=dis)ans++;
-                    temp2=temp2.next;
-                }
-                temp=temp.next;
+        for(int i=0;i<dis;i++){
+            for(int j=0;j+i+1<dis;j++){
+                ans+=(left[i]*right[j]);
             }
-            int lenL =map.get(temp.node);
-            MyList temp2=right;
-            while(temp2!=null){
-                // System.out.println(temp.node.val+":"+temp2.node.val);
-                if(lenL+map.get(temp2.node)-2*depth<=dis)ans++;
-                temp2=temp2.next;
-            }
-            temp.next=right;
-            return left;
         }
-        else if(right!=null)return right;
-        else if(left!=null)return left;
-        return null;
+        for(int i=1;i<dis;i++)current[i]=right[i-1]+left[i-1];
+        return current;
     }
 }
