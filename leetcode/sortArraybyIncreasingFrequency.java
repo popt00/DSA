@@ -3,32 +3,19 @@
 */
 class Solution {
     public int[] frequencySort(int[] nums) {
-        HashMap<Integer,Integer> map=new HashMap<>();
-        for(int x: nums)map.put(x, map.getOrDefault(x,0)+1);
-        int[][] ar=new int[map.size()][2];
-        int j=0;
-        for(Map.Entry<Integer,Integer> entry: map.entrySet()){
-            ar[j][0]=entry.getKey();
-            ar[j][1]=entry.getValue();
-            j++;
-        }
-        Arrays.sort(ar, new Comparator<int[]>(){
-            public int compare(int[]a, int[]b ){
-                if(a[1]==b[1])return Integer.compare(b[0],a[0]);
-                return Integer.compare(a[1],b[1]);
+        for(int i=0;i<nums.length;i++)nums[i]+=100;
+        int[] freq=new int[202];
+        for(int x:nums)freq[x]++;
+        Integer[] indexAr=new Integer[nums.length];
+        for(int i=0;i<nums.length;i++)indexAr[i]=i;
+        Arrays.sort(indexAr, new Comparator<Integer>(){
+            public int compare(Integer a, Integer b){
+                if(freq[nums[a]]==freq[nums[b]])return Integer.compare(nums[b],nums[a]);
+                return Integer.compare(freq[nums[a]],freq[nums[b]]);
             }
         });
-        int []ans=new int[nums.length];
-        j=0;int indexAns=0;
-        while(j!=ar.length){
-            if(ar[j][1]==0){
-                j++;
-            }
-            else{
-                ar[j][1]--;
-                ans[indexAns++]=ar[j][0];
-            }
-        }
+        int [] ans=new int[nums.length];
+        for(int i=0;i<nums.length;i++)ans[i]=nums[indexAr[i]]-100;
         return ans;
     }
 }
