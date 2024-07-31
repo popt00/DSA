@@ -1,6 +1,8 @@
 /*
  * https://codeforces.com/contest/1995/problem/C
- * uncomplete: wrong answer on test c
+ * complete: accepted
+ * see blog : https://codeforces.com/blog/entry/131851
+ * and this reference: https://codeforces.com/contest/1995/submission/273617012
  * */
 // package org.donga;
 import java.util.Arrays;
