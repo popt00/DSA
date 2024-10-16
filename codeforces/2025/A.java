@@ -1,3 +1,4 @@
+//https://codeforces.com/contest/2025/problem/A
 import java.util.*;
  
 public class Asolution {
