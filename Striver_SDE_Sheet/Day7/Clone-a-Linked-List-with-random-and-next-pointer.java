@@ -15,24 +15,35 @@ class Node {
 
 class Solution {
     public Node copyRandomList(Node head) {
-        HashMap<Node,Node> map=new HashMap<>();
-        Node preHead=new Node(0);
-        Node tempItr=head,tempItr2=preHead;
-        while(tempItr!=null){
-            Node temp=new Node(tempItr.val);
-            map.put(tempItr,temp);
-            tempItr2.next=temp;
-            tempItr=tempItr.next;
-            tempItr2=tempItr2.next;
+        insertCopyAfterNode(head);
+        setRandomCopiedNode(head);
+        return getCopiedAfterSplittingCopiedOriginal(head);
+    }
+    private void insertCopyAfterNode(Node head){
+        Node temp=head;
+        while(temp!=null){
+            Node afterTemp=new Node(temp.val);
+            afterTemp.next=temp.next;
+            temp.next=afterTemp;
+            temp=temp.next.next;
         }
-        tempItr2=preHead.next;
-        tempItr=head;
-        while(tempItr!=null){
-            if(tempItr.random!=null)
-                tempItr2.random=map.get(tempItr.random);
-            tempItr=tempItr.next;
-            tempItr2=tempItr2.next;
+    }
+    private void setRandomCopiedNode(Node head){
+        Node temp=head;
+        while(temp!=null){
+            if(temp.random!=null)temp.next.random=temp.random.next;
+            ameatemp=temp.next.next;
         }
-        return preHead.next;
+    }
+    private Node getCopiedAfterSplittingCopiedOriginal(Node head){
+        Node preCopiedHead=new Node(0);
+        Node temp=head,tempCopied=preCopiedHead;
+        while(temp!=null){
+            tempCopied.next=temp.next;
+            tempCopied=tempCopied.next;
+            temp.next=temp.next.next;
+            temp=temp.next;
+        }
+        return preCopiedHead.next;
     }
 }
